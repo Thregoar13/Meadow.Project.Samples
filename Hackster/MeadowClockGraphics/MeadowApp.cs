@@ -51,7 +51,7 @@ namespace MeadowClockGraphics
             displayHeight = Convert.ToInt32(st7789.Height);
 
             graphics = new MicroGraphics(st7789);
-            graphics.Rotation = RotationType._270Degrees;
+            //graphics.Rotation = RotationType._270Degrees;
 
             onboardLed.SetColor(Color.Green);
 
@@ -249,8 +249,8 @@ namespace MeadowClockGraphics
 
         public override Task Run() 
         {
-            //DrawShapes();
-            //DrawTexts();
+            DrawShapes();
+            DrawTexts();
             DrawClock();
 
             return base.Run();
