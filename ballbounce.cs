@@ -10,46 +10,16 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-
-public Ball(
-MicroGraphics graphics,
-int displayWidth,
-int displayHeight,
-Color backgroundColor,
-int radius,
-int positionX,
-int positionY,
-int speedX,
-int speedY,
-Color ballColor
-)
-
-graphics.DrawCircle
-(
-centerX: positionX,
-centerY: positionY,
-radius: radius,
-color: ballColor,
-filled: false
-);.
-.
-.
-.
-.
-.
-// for timing use:
-Thread.Sleep(10);
-
-
-namespace ballBounce
+namespace ballAnimation
 {
     // public class MeadowApp : App<F7FeatherV1> <- If you have a Meadow F7v1.*
     public class MeadowApp : App<F7FeatherV2>
     {
-        
+        readonly Color WatchBackgroundColor = Color.White;
 
         MicroGraphics graphics;
-        int displayWidth, displayHeight;
+
+
         public override Task Initialize()
         {
             var onboardLed = new RgbPwmLed(
@@ -87,19 +57,63 @@ namespace ballBounce
             return base.Initialize();
         }
 
-        
+        void DrawShapes()
+        {
+            Random rand = new Random();
 
+            graphics.Clear(true);
 
+            int radius = 10;
+            int originX = displayWidth / 2;
+            int originY = displayHeight / 2;
+
+            for (int i = 1; i < 5; i++)
+            {
+                graphics.DrawCircle
+                (
+                    centerX: originX,
+                    centerY: originY,
+                    radius: radius,
+                    color: Color.FromRgb(rand.Next(128, 255), rand.Next(128, 255), rand.Next(128, 255))
+                );
+                graphics.Show();
+                radius += 30;
+            }
+
+            int sideLength = 30;
+            for (int i = 1; i < 5; i++)
+            {
+                graphics.DrawRectangle
+                (
+                    x: (displayWidth - sideLength) / 2,
+                    y: (displayHeight - sideLength) / 2,
+                    width: sideLength,
+                    height: sideLength,
+                    color: Color.FromRgb(rand.Next(128, 255), rand.Next(128, 255), rand.Next(128, 255))
+                );
+                graphics.Show();
+                sideLength += 60;
+            }
+
+            graphics.DrawLine(0, displayHeight / 2, displayWidth, displayHeight / 2,
+                Color.FromRgb(rand.Next(128, 255), rand.Next(128, 255), rand.Next(128, 255)));
+            graphics.DrawLine(displayWidth / 2, 0, displayWidth / 2, displayHeight,
+                Color.FromRgb(rand.Next(128, 255), rand.Next(128, 255), rand.Next(128, 255)));
+            graphics.DrawLine(0, 0, displayWidth, displayHeight,
+                Color.FromRgb(rand.Next(128, 255), rand.Next(128, 255), rand.Next(128, 255)));
+            graphics.DrawLine(0, displayHeight, displayWidth, 0,
+                Color.FromRgb(rand.Next(128, 255), rand.Next(128, 255), rand.Next(128, 255)));
+            graphics.Show();
+
+            //Thread.Sleep(5000);
         }
 
-        
-
-        }
+       
 
         public override Task Run()
         {
             DrawShapes();
-
+           
 
             return base.Run();
         }
